@@ -229,6 +229,9 @@ html[data-badge] .bdg{display:grid;animation:bdgin .45s cubic-bezier(.3,1.6,.4,1
 .fb .gc{max-width:100%;min-width:0}
 .fb .gc>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fb.picked .gc{color:#7cb8ff}
+.fb svg.gram{display:none;height:15px;width:18px}
+.pg-on .gc>svg:not(.gram){display:none}
+.pg-on .gc>svg.gram{display:block}
 .gmenu{display:flex;flex-direction:column;overflow:hidden;touch-action:manipulation;padding-bottom:8px}
 .gmenu .mi{flex:none;height:42px;gap:12px;padding:0 48px 0 16px;font-size:17px;cursor:pointer}
 .gmenu .mi:active{background:rgba(255,255,255,.14)}
@@ -257,10 +260,34 @@ html[data-badge] .bdg{display:grid;animation:bdgin .45s cubic-bezier(.3,1.6,.4,1
 .gmenu .sp{width:34px;height:34px;flex:none}
 .gmenu .sw{width:24px;height:24px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
 .sfoot{text-align:center;font-size:13px;color:#636366;padding:6px 0 0}
+
+/* ===== окно цены: От / До ===== */
+.gprice{display:none;padding:8px 16px 8px}
+.gmenu.price .gs,.gmenu.price .ga,.gmenu.price .gscr{display:none}
+.gmenu.price .gprice{display:block}
+.gprice .ph{display:flex;align-items:center;justify-content:space-between;height:28px;margin-bottom:12px}
+.gprice .ph b{font-size:17px;font-weight:600}
+.gprice .prst{all:unset;font-size:15px;font-weight:500;color:var(--blue);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .2s}
+.gprice .prst.on{opacity:1;pointer-events:auto}
+.gprice .prst:active{opacity:.6}
+.gprice .pr{display:flex;gap:8px}
+.gprice .pf{flex:1 1 0;min-width:0;display:block}
+.gprice .pl{display:block;margin:0 0 6px 4px;font-size:13px;font-weight:500;color:#8e8e93}
+.gprice .pv{display:flex;align-items:center;gap:7px;height:46px;padding:0 12px;border-radius:16px;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);transition:background .2s,box-shadow .2s}
+.gprice .pv:focus-within{background:rgba(58,139,247,.14);box-shadow:inset 0 0 0 1.5px var(--blue)}
+.gprice .gi{flex:none;width:18px;height:16px;color:#5aa9ff;display:block}
+.gprice .pv input{flex:1;min-width:0;width:100%;background:none;border:0;outline:0;color:#fff;font:inherit;font-size:19px;font-weight:600;padding:0;-webkit-appearance:none;appearance:none;user-select:text;-webkit-user-select:text;caret-color:var(--blue)}
+.gprice .pv input::placeholder{color:#6c6c70;font-weight:500;opacity:1}
+.prs{position:relative;height:40px;margin:10px 0 2px;touch-action:none;cursor:pointer}
+.prs .trk{position:absolute;left:12px;right:12px;top:50%;height:4px;margin-top:-2px;border-radius:2px;background:rgba(255,255,255,.18)}
+.prs .fil2{position:absolute;top:0;bottom:0;left:calc(var(--a,0)*100%);width:calc((var(--b,1) - var(--a,0))*100%);border-radius:2px;background:var(--blue)}
+.prs .kn{position:absolute;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;left:calc(12px + (100% - 24px)*var(--p,0));border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.5),0 0 0 .5px rgba(0,0,0,.15);transition:transform .15s}
+.prs .kn.drag{transform:scale(1.14)}
 </style>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="gram" viewBox="16.72 24.44 66.56 56.26"><path fill="currentColor" d="M67.07,24.96 C65.39,24.44 63.53,24.44 59.81,24.44 C53.27,24.44 46.73,24.44 40.19,24.44 C36.47,24.44 34.61,24.44 32.92,24.96 C31.43,25.42 30.04,26.17 28.85,27.17 C27.51,28.31 26.5,29.87 24.49,33 C22.77,35.68 21.05,38.36 19.33,41.04 C17.79,43.44 17.01,44.64 16.8,45.9 C16.62,47.02 16.74,48.16 17.16,49.21 C17.63,50.4 18.64,51.41 20.66,53.43 C28.55,61.32 36.45,69.21 44.34,77.11 C46.32,79.09 47.31,80.08 48.45,80.45 C49.45,80.78 50.54,80.78 51.54,80.45 C52.69,80.08 53.68,79.09 55.66,77.11 C63.55,69.21 71.45,61.32 79.34,53.43 C81.36,51.41 82.36,50.4 82.84,49.21 C83.26,48.16 83.38,47.02 83.19,45.9 C82.99,44.64 82.21,43.44 80.67,41.04 C78.95,38.36 77.23,35.68 75.51,33 C73.5,29.87 72.49,28.31 71.14,27.17 C69.95,26.17 68.56,25.42 67.07,24.96z M57.83,31.55 C58.14,31.38 58.52,31.38 58.84,31.55 C59.19,31.74 59.44,32.47 59.91,33.91 C60.69,36.23 61.46,38.56 62.24,40.88 C62.33,41.17 62.38,41.31 62.46,41.43 C62.54,41.54 62.63,41.63 62.74,41.7 C62.86,41.79 63,41.84 63.29,41.93 C65.61,42.7 67.93,43.47 70.26,44.24 C71.7,44.72 72.42,44.97 72.62,45.33 C72.79,45.64 72.79,46.01 72.62,46.32 C72.42,46.68 71.7,46.92 70.26,47.41 C67.93,48.18 65.61,48.96 63.29,49.74 C63,49.83 62.86,49.88 62.74,49.96 C62.63,50.04 62.54,50.13 62.46,50.24 C62.38,50.36 62.33,50.5 62.24,50.79 C61.46,53.11 60.69,55.44 59.91,57.76 C59.44,59.2 59.19,59.92 58.84,60.12 C58.52,60.29 58.14,60.29 57.83,60.12 C57.47,59.92 57.23,59.2 56.75,57.76 C55.98,55.44 55.21,53.11 54.43,50.79 C54.34,50.5 54.29,50.36 54.2,50.24 C54.13,50.13 54.04,50.04 53.93,49.96 C53.81,49.88 53.66,49.83 53.38,49.74 C51.06,48.96 48.73,48.19 46.41,47.42 C44.97,46.94 44.24,46.69 44.05,46.33 C43.88,46.02 43.88,45.64 44.05,45.33 C44.24,44.97 44.97,44.73 46.41,44.25 C48.73,43.48 51.06,42.7 53.38,41.93 C53.66,41.84 53.81,41.79 53.93,41.7 C54.04,41.63 54.13,41.54 54.2,41.43 C54.29,41.31 54.34,41.17 54.43,40.88 C55.21,38.56 55.98,36.23 56.75,33.91 C57.23,32.47 57.47,31.74 57.83,31.55z"/></symbol></svg>
 <section class="view" id="v0">
   <header class="hdr">
     <div class="matte hbtn gb pill" id="sortBtn"><span class="gc" data-i="sort">Сортировка</span><div class="glass soft sthumb"><div class="lens" id="lensSort" data-soft="1"></div></div></div>
@@ -276,7 +303,7 @@ html[data-badge] .bdg{display:grid;animation:bdgin .45s cubic-bezier(.3,1.6,.4,1
 <section class="view on" id="v1">
   <div class="matte hbtn gb gpick" id="gp"><span class="gc"><span class="gth"><svg viewBox="9.56 8.83 55.88 55.88"><path fill="currentColor" d="M35.09,24.65 C35.09,24.65 31.21,24.65 31.21,24.65 C29.23,24.65 27.70,24.15 26.62,23.15 C25.53,22.15 24.97,20.97 24.97,19.62 C24.97,18.30 25.42,17.28 26.29,16.53 C27.18,15.77 28.31,15.40 29.71,15.40 C31.20,15.40 32.47,15.93 33.52,16.96 C34.56,18.01 35.09,19.40 35.09,21.15 C35.09,21.15 35.09,24.65 35.09,24.65 C35.09,24.65 39.91,24.65 39.91,24.65 C39.91,24.65 39.91,21.15 39.91,21.15 C39.91,19.40 40.11,18.01 41.15,16.96 C42.20,15.93 43.47,15.40 44.97,15.40 C46.36,15.40 47.49,15.77 48.36,16.53 C49.25,17.28 49.68,18.30 49.68,19.62 C49.68,20.97 49.13,22.15 48.04,23.15 C46.95,24.15 45.43,24.65 43.45,24.65 C43.45,24.65 39.91,24.65 39.91,24.65 C39.91,24.65 51.90,24.65 51.90,24.65 C52.63,23.97 53.20,23.18 53.63,22.27 C54.04,21.36 54.25,20.37 54.25,19.28 C54.25,17.69 53.86,16.28 53.06,15.03 C52.25,13.80 51.18,12.81 49.84,12.11 C48.5,11.42 46.97,11.06 45.31,11.06 C43.47,11.06 41.86,11.53 40.43,12.47 C39.00,13.40 37.97,14.73 37.34,16.45 C36.70,14.73 35.68,13.40 34.25,12.47 C32.81,11.53 31.19,11.06 29.35,11.06 C27.70,11.06 26.20,11.42 24.85,12.11 C23.48,12.81 22.42,13.80 21.62,15.03 C20.81,16.28 20.42,17.69 20.42,19.28 C20.42,20.37 20.62,21.36 21.04,22.27 C21.46,23.18 22.04,23.97 22.77,24.65 C22.77,24.65 35.09,24.65 35.09,24.65z"/><path fill="currentColor" d="M39.91,62.47 C39.91,62.47 39.91,41.52 39.91,41.52 C39.91,41.52 56.43,41.52 56.43,41.52 C56.56,41.52 56.70,41.52 56.84,41.49 C56.84,41.49 56.84,56.02 56.84,56.02 C56.84,59.59 53.95,62.47 50.38,62.47 C50.38,62.47 39.91,62.47 39.91,62.47z M35.08,41.52 C35.08,41.52 18.15,41.52 18.15,41.52 C18.15,41.52 18.15,56.02 18.15,56.02 C18.15,59.59 21.04,62.47 24.61,62.47 C24.61,62.47 35.08,62.47 35.08,62.47 C35.08,62.47 35.08,41.52 35.08,41.52z M16.54,24.61 C14.77,24.61 13.32,26.04 13.32,27.82 C13.32,27.82 13.32,34.27 13.32,34.27 C13.32,36.06 14.77,37.5 16.54,37.5 C16.54,37.5 35.08,37.5 35.08,37.5 C35.08,37.5 35.08,26.90 35.08,26.90 C35.08,26.36 35.36,25.84 35.84,25.54 C35.84,25.54 37.06,24.77 37.06,24.77 C37.33,24.61 37.66,24.61 37.93,24.77 C37.93,24.77 39.15,25.54 39.15,25.54 C39.63,25.84 39.91,26.36 39.91,26.90 C39.91,26.90 39.91,37.5 39.91,37.5 C39.91,37.5 56.43,37.5 56.43,37.5 C56.56,37.5 56.70,37.50 56.84,37.54 C56.84,37.54 56.84,37.5 56.84,37.5 C56.84,37.5 58.45,37.5 58.45,37.5 C60.22,37.5 61.66,36.06 61.66,34.27 C61.66,34.27 61.66,27.82 61.66,27.82 C61.66,26.04 60.22,24.61 58.45,24.61 C58.45,24.61 16.54,24.61 16.54,24.61z"/></svg></span><span class="gt" data-i="fGift">Все подарки</span><svg class="ch" viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.2 7L6 3.2 9.8 7M2.2 11L6 14.8 9.8 11"/></svg></span><div class="glass soft sthumb"><div class="lens" id="gl" data-soft="1"></div></div></div>
   <div class="fbar" id="fbar">
-    <div class="matte hbtn gb pill fb" id="fb0"><span class="gc"><svg viewBox="0 0 26 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 14.2A9 9 0 1 1 18.5 6.1"/><path d="M13.6 8.9c-.5-.8-1.4-1.2-2.4-1.1-1.2.1-2 .8-1.9 1.7.1 2 4.5 1.2 4.5 3.3 0 1-1 1.7-2.3 1.8-1 .1-2-.3-2.5-1.1M11.5 6.2v1.6M11.5 15.4V17"/><path d="M21.4 21v-6.6M18.7 17l2.7-2.7 2.7 2.7"/></svg><span data-i="fPrice">Цена</span></span><div class="glass soft sthumb"><div class="lens" id="fl0" data-soft="1"></div></div></div>
+    <div class="matte hbtn gb pill fb" id="fb0"><span class="gc"><svg viewBox="0 0 26 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 14.2A9 9 0 1 1 18.5 6.1"/><path d="M13.6 8.9c-.5-.8-1.4-1.2-2.4-1.1-1.2.1-2 .8-1.9 1.7.1 2 4.5 1.2 4.5 3.3 0 1-1 1.7-2.3 1.8-1 .1-2-.3-2.5-1.1M11.5 6.2v1.6M11.5 15.4V17"/><path d="M21.4 21v-6.6M18.7 17l2.7-2.7 2.7 2.7"/></svg><svg class="gram" aria-hidden="true"><use href="#gram" width="100%" height="100%"/></svg><span data-i="fPrice">Цена</span></span><div class="glass soft sthumb"><div class="lens" id="fl0" data-soft="1"></div></div></div>
     <div class="matte hbtn gb pill fb" id="fb1"><span class="gc"><span data-i="fModel">Модель</span><svg class="ch" viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.2 7L6 3.2 9.8 7M2.2 11L6 14.8 9.8 11"/></svg></span><div class="glass soft sthumb"><div class="lens" id="fl1" data-soft="1"></div></div></div>
     <div class="matte hbtn gb pill fb" id="fb2"><span class="gc"><span data-i="fBg">Фон</span><svg class="ch" viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.2 7L6 3.2 9.8 7M2.2 11L6 14.8 9.8 11"/></svg></span><div class="glass soft sthumb"><div class="lens" id="fl2" data-soft="1"></div></div></div>
     <div class="matte hbtn gb pill fb" id="fb3"><span class="gc"><span data-i="fPat">Узор</span><svg class="ch" viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.2 7L6 3.2 9.8 7M2.2 11L6 14.8 9.8 11"/></svg></span><div class="glass soft sthumb"><div class="lens" id="fl3" data-soft="1"></div></div></div>
@@ -714,13 +741,13 @@ const hap = (() => {
 (function giftFilters() {
   const BASE = 'https://cdn.changes.tg/gifts/';
   // gift — один подарок (строка), model / bg / pat — мультивыбор (массивы; пусто = без фильтра)
-  const GF = window.giftFilter = { gift: null, model: [], bg: [], pat: [] };
+  const GF = window.giftFilter = { gift: null, model: [], bg: [], pat: [], price: { min: null, max: null } };
   const S = {
-    ru: { fSelAll: 'Выбрать все', fWait: 'Загрузка…', fErr: 'Не удалось загрузить', fNeedGift: 'Сначала выбери подарок' },
-    en: { fSelAll: 'Select all', fWait: 'Loading…', fErr: 'Failed to load', fNeedGift: 'Pick a gift first' },
-    uk: { fSelAll: 'Вибрати все', fWait: 'Завантаження…', fErr: 'Не вдалося завантажити', fNeedGift: 'Спершу обери подарунок' },
-    ko: { fSelAll: '모두 선택', fWait: '불러오는 중…', fErr: '불러오지 못했어요', fNeedGift: '먼저 선물을 선택하세요' },
-    zh: { fSelAll: '全选', fWait: '加载中…', fErr: '加载失败', fNeedGift: '请先选择礼物' }
+    ru: { fSelAll: 'Выбрать все', fWait: 'Загрузка…', fErr: 'Не удалось загрузить', fNeedGift: 'Сначала выбери подарок', fFrom: 'От', fTo: 'До', fReset: 'Сбросить' },
+    en: { fSelAll: 'Select all', fWait: 'Loading…', fErr: 'Failed to load', fNeedGift: 'Pick a gift first', fFrom: 'From', fTo: 'To', fReset: 'Reset' },
+    uk: { fSelAll: 'Вибрати все', fWait: 'Завантаження…', fErr: 'Не вдалося завантажити', fNeedGift: 'Спершу обери подарунок', fFrom: 'Від', fTo: 'До', fReset: 'Скинути' },
+    ko: { fSelAll: '모두 선택', fWait: '불러오는 중…', fErr: '불러오지 못했어요', fNeedGift: '먼저 선물을 선택하세요', fFrom: '최소', fTo: '최대', fReset: '초기화' },
+    zh: { fSelAll: '全选', fWait: '加载中…', fErr: '加载失败', fNeedGift: '请先选择礼物', fFrom: '最低', fTo: '最高', fReset: '重置' }
   };
   Object.keys(S).forEach(l => Object.assign(T[l], S[l]));
 
@@ -752,18 +779,20 @@ const hap = (() => {
     return LANG === 'ko' ? w + ' ' + n + '개' : LANG === 'zh' ? n + ' 个' + w : n + ' ' + w;
   }
 
-  const LAB = { gift: ['gp', 'gl', 'fGift'], model: ['fb1', 'fl1', 'fModel'], bg: ['fb2', 'fl2', 'fBg'], pat: ['fb3', 'fl3', 'fPat'] };
+  const LAB = { gift: ['gp', 'gl', 'fGift'], model: ['fb1', 'fl1', 'fModel'], bg: ['fb2', 'fl2', 'fBg'], pat: ['fb3', 'fl3', 'fPat'], price: ['fb0', 'fl0', 'fPrice'] };
   function label(key) {     // подпись на кнопке и на её стеклянном клоне
     const [b, l, k] = LAB[key], v = GF[key], d = T[LANG];
-    const txt = key === 'gift' ? v : v.length === 0 ? null : v.length === 1 ? v[0] : countText(key, v.length);
+    const txt = key === 'gift' ? v : key === 'price' ? priceText() : v.length === 0 ? null : v.length === 1 ? v[0] : countText(key, v.length);
     [b, l].forEach(id => {
+      if (key === 'price') $(id).classList.toggle('pg-on', txt != null);
       const sp = $(id).querySelector('span[data-i],span[data-g]'); if (!sp) return;
       if (txt == null) { sp.removeAttribute('data-g'); sp.setAttribute('data-i', k); sp.textContent = d[k]; }
       else { sp.removeAttribute('data-i'); sp.setAttribute('data-g', key); sp.textContent = txt; }
+      if (key === 'price') sp.style.fontSize = txt == null || txt.length <= 4 ? '' : txt.length <= 6 ? '14px' : '12px';   // чем длиннее диапазон, тем чуть мельче — чтобы влез рядом с иконкой
     });
-    $(b).classList.toggle('picked', key !== 'gift' && v.length > 0);
+    $(b).classList.toggle('picked', key === 'price' ? txt != null : key !== 'gift' && v.length > 0);
   }
-  const emit = () => document.dispatchEvent(new CustomEvent('giftfilter', { detail: { gift: GF.gift, model: [...GF.model], bg: [...GF.bg], pat: [...GF.pat] } }));
+  const emit = () => document.dispatchEvent(new CustomEvent('giftfilter', { detail: { gift: GF.gift, model: [...GF.model], bg: [...GF.bg], pat: [...GF.pat], price: { ...GF.price } } }));
   function setGift(v) {
     if (GF.gift === v) return;
     GF.gift = v; GF.model = []; GF.pat = [];     // у каждого подарка свои модели и узоры
@@ -782,6 +811,70 @@ const hap = (() => {
     + '<div class="gscr" id="gscr"><div class="mi ga" id="ga"><svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg><span class="mt"></span></div>'
     + '<div class="glist" id="glist" role="listbox"></div></div>';
   const q = $('gq'), ga = $('ga'), gl = $('glist'), gsc = $('gscr');
+  // ---- цена: От / До (поля + двойной ползунок + быстрые диапазоны) ----
+  const PMAXV = 10000;
+  const pStep = v => v < 100 ? 1 : v < 1000 ? 5 : 50;
+  const t2v = t => { const v = PMAXV * (Math.pow(10, 4 * t) - 1) / 9999, s = pStep(v); return Math.round(v / s) * s; };   // шкала логарифмическая: мелкие цены не слипаются
+  const v2t = v => Math.min(1, Math.max(0, Math.log10(v * 9999 / PMAXV + 1) / 4));
+  function fmtN(n) { return n >= 1000 ? (+(n / 1000).toFixed(1)) + 'K' : String(+(+n).toFixed(2)); }
+  function priceText() {
+    const { min, max } = GF.price;
+    return min == null && max == null ? null : min != null && max != null ? fmtN(min) + '–' + fmtN(max) : min != null ? '≥ ' + fmtN(min) : '≤ ' + fmtN(max);
+  }
+  const GI = '<svg class="gi" aria-hidden="true"><use href="#gram" width="100%" height="100%"/></svg>';
+  menu.insertAdjacentHTML('beforeend', '<div class="gprice" id="gprice">'
+    + '<div class="ph"><b id="ptt"></b><button class="prst" id="prst" type="button"></button></div>'
+    + '<div class="pr"><label class="pf"><span class="pl" id="pl0"></span><span class="pv">' + GI + '<input id="pmin" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" placeholder="0"></span></label>'
+    + '<label class="pf"><span class="pl" id="pl1"></span><span class="pv">' + GI + '<input id="pmax" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" placeholder="∞"></span></label></div>'
+    + '<div class="prs" id="prs"><div class="trk"><i class="fil2"></i></div><i class="kn" id="kn0"></i><i class="kn" id="kn1"></i></div></div>');
+  const pmin = $('pmin'), pmax = $('pmax'), prs = $('prs'), kn = [$('kn0'), $('kn1')], prst = $('prst');
+
+  function syncPrice(skip) {     // skip — поле, в которое сейчас печатают (его текст не трогаем)
+    const a = GF.price.min, b = GF.price.max, ta = a == null ? 0 : v2t(a), tb = b == null ? 1 : v2t(b);
+    kn[0].style.setProperty('--p', ta); kn[1].style.setProperty('--p', tb);
+    prs.style.setProperty('--a', ta); prs.style.setProperty('--b', tb);
+    if (skip !== 'min') pmin.value = a == null ? '' : String(a);
+    if (skip !== 'max') pmax.value = b == null ? '' : String(b);
+    prst.classList.toggle('on', a != null || b != null);
+  }
+  function applyPrice(skip) { syncPrice(skip); label('price'); emit(); }
+  const clean = el => { let s = el.value.replace(',', '.').replace(/[^\d.]/g, ''); const i = s.indexOf('.'); if (i >= 0) s = s.slice(0, i + 1) + s.slice(i + 1).replace(/\./g, ''); if (s !== el.value) el.value = s; return s === '' || s === '.' ? null : parseFloat(s); };
+  pmin.addEventListener('input', () => { const n = clean(pmin); GF.price.min = n != null && n > 0 ? n : null; applyPrice('min'); });
+  pmax.addEventListener('input', () => { const n = clean(pmax); GF.price.max = n; applyPrice('max'); });
+  const fixOrder = () => { const P = GF.price; if (P.min != null && P.max != null && P.min > P.max) { [P.min, P.max] = [P.max, P.min]; } syncPrice(); label('price'); emit(); };   // «от» больше «до» — меняем местами
+  [pmin, pmax].forEach(el => { el.addEventListener('blur', fixOrder); el.addEventListener('keydown', e => { if (e.key === 'Enter') el.blur(); }); });
+
+  let drag = -1;
+  const tAt = e => { const r = prs.getBoundingClientRect(); return Math.min(1, Math.max(0, (e.clientX - r.left - 12) / (r.width - 24))); };
+  function dragMove(e) {
+    const t = tAt(e), P = GF.price;
+    if (drag === 0) { let v = t < .004 ? null : t2v(t); if (v === 0) v = null; if (v != null && P.max != null && v > P.max) v = P.max; P.min = v; }
+    else { let v = t > .996 ? null : t2v(t); if (v != null && v < 1) v = 1; if (v != null && P.min != null && v < P.min) v = P.min; P.max = v; }
+    applyPrice();
+  }
+  prs.addEventListener('pointerdown', e => {
+    const t = tAt(e), P = GF.price, ta = P.min == null ? 0 : v2t(P.min), tb = P.max == null ? 1 : v2t(P.max), da = Math.abs(t - ta), db = Math.abs(t - tb);
+    drag = da < db ? 0 : da > db ? 1 : (t < ta ? 0 : 1);       // двигаем ближайший бегунок
+    [pmin, pmax].forEach(el => el.blur());
+    try { prs.setPointerCapture(e.pointerId); } catch (_) {}
+    kn[drag].classList.add('drag'); dragMove(e); e.preventDefault();
+  });
+  prs.addEventListener('pointermove', e => { if (drag >= 0) dragMove(e); });
+  const endDrag = () => { if (drag < 0) return; kn[drag].classList.remove('drag'); drag = -1; hap.select(); };
+  prs.addEventListener('pointerup', endDrag); prs.addEventListener('pointercancel', endDrag);
+
+  prst.addEventListener('click', () => { GF.price.min = GF.price.max = null; applyPrice(); hap.select(); });
+
+  function openPrice() {
+    const d = T[LANG]; ++token;
+    if (openKey && openKey !== 'price') setChev(openKey, false);
+    openKey = 'price'; multi = false;
+    menu.classList.remove('multi', 'msgonly'); menu.classList.add('price');
+    $('ptt').textContent = d.fPrice; $('pl0').textContent = d.fFrom; $('pl1').textContent = d.fTo; prst.textContent = d.fReset;
+    syncPrice();
+    place($('fb0'), 'price'); menu.classList.add('on'); scrim.classList.add('on'); hap.impact('medium');
+  }
+
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   let openKey = null, multi = false, token = 0, rows = [], sel = new Set(), io = null;
 
@@ -834,6 +927,8 @@ const hap = (() => {
     menu.style.transformOrigin = (r.left + r.width / 2 - left) + 'px -8px';
   }
   function open(key) {
+    if (key === 'price') return openPrice();
+    menu.classList.remove('price');
     const my = ++token, d = T[LANG];
     if (openKey && openKey !== key) setChev(openKey, false);
     openKey = key; multi = key !== 'gift'; sel = new Set(multi ? GF[key] : []);
@@ -852,7 +947,7 @@ const hap = (() => {
   }
   function close() {
     if (openKey) setChev(openKey, false);
-    openKey = null; token++; q.blur(); menu.classList.remove('on'); scrim.classList.remove('on');
+    openKey = null; token++; q.blur(); pmin.blur(); pmax.blur(); menu.classList.remove('on'); scrim.classList.remove('on');
   }
 
   menu.addEventListener('error', e => {      // картинка не нашлась — пробуем следующий путь, иначе прячем
@@ -875,7 +970,7 @@ const hap = (() => {
     markSel(); updateAll(); commit(); hap.select();
   });
   q.addEventListener('input', filter);
-  [['gift', 'gp'], ['model', 'fb1'], ['bg', 'fb2'], ['pat', 'fb3']].forEach(([k, id]) => $(id).addEventListener('click', () => openKey === k ? close() : open(k)));
+  [['gift', 'gp'], ['price', 'fb0'], ['model', 'fb1'], ['bg', 'fb2'], ['pat', 'fb3']].forEach(([k, id]) => $(id).addEventListener('click', () => openKey === k ? close() : open(k)));
   scrim.addEventListener('click', close);
   addEventListener('resize', () => { if (openKey) place($(LAB[openKey][0]), openKey); });   // не закрываем: при поиске открывается клавиатура
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && openKey) close(); });
