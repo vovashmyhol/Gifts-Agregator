@@ -895,7 +895,7 @@ const hap = (() => {
   if (w) { paint(); w.onEvent && w.onEvent('themeChanged', paint); }
   // запасной вариант для старых клиентов: гасим вертикальный жест на странице без прокрутки
   const listEl = $('list');
-  const scrollers = () => [listEl, ...document.querySelectorAll('#v2 .sscroll')];
+  const scrollers = () => [listEl, $('gscr'), ...document.querySelectorAll('#v2 .sscroll')];   // gscr — список в окошках фильтров подарков
   document.addEventListener('touchmove', e => { if (scrollers().some(el => el.contains(e.target))) return; if (e.cancelable) e.preventDefault(); }, { passive: false });
   // в самом верху/низу списка сдвигаем на 1px, чтобы старый Telegram не принимал жест за закрытие
   scrollers().forEach(el => el.addEventListener('touchstart', () => {
