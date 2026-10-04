@@ -293,6 +293,44 @@ html[data-badge] .bdg{display:grid;animation:bdgin .45s cubic-bezier(.3,1.6,.4,1
 .prs .kc{position:absolute;top:-4px;height:40px;width:var(--W,300px);left:calc(8px - (var(--W,300px) - 34px)*var(--p,0) - var(--lx,0px));
   transform-origin:calc(17px + (var(--W,300px) - 34px)*var(--p,0)) 20px;transform:scale(calc(.84*var(--isx,1)),calc(1.12*var(--isy,1)))}   /* как в нижнем баре: под каплей чуть сжато по ширине и чуть растянуто по высоте */
 .prs .kg .lens::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.14) 0,rgba(255,255,255,0) 38%,rgba(255,255,255,0) 62%,rgba(255,255,255,.1) 100%)}
+
+/* офферы */
+#v1.has-offers .empty{display:none}
+#v1 .olist{position:absolute;inset:0;z-index:1;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;padding:calc(var(--top) + var(--gap-top) + 54px + 38px + 32px) var(--pr) calc(190*var(--u) + var(--bot) + 40px) var(--pl)}
+#v1 .olist::-webkit-scrollbar{display:none}
+.oc{display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:10px;border-radius:20px;background:#1c1c1e;animation:oin .3s ease-out}
+@keyframes oin{from{opacity:0;transform:translateY(8px) scale(.97)}}
+.oc{position:relative;overflow:hidden}
+.oc>*{position:relative;z-index:1}
+.oc>.opat{position:absolute;inset:0;z-index:0;pointer-events:none}
+.opat img{position:absolute;filter:brightness(0) invert(1);opacity:.11;object-fit:contain;background:none!important;border-radius:0!important}
+.oc.big{margin:0;padding:18px;cursor:default;animation:none}.oc.big img:first-child{width:72px;height:72px}.oc.big .on1{font-size:20px}.oc.big .ox{display:none}
+.sec2{font-size:13px;color:#8e8e93;margin:0 0 6px}#obody{margin:16px 0 18px;max-height:32vh;overflow-y:auto;scrollbar-width:none}#obody .chips{margin-bottom:12px}
+.obtn.ghost{background:rgba(255,255,255,.1)}.obtn.dng{color:#ff6b61;margin-top:10px}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.oc.tint .on2{color:rgba(255,255,255,.7)}
+.oc.tint img{background:rgba(0,0,0,.2)}
+.oc img{width:48px;height:48px;border-radius:12px;background:#2c2c2e;object-fit:contain;flex:none}
+.oc .oi{flex:1;min-width:0}.oc .on1{font-size:17px;font-weight:600}.oc .on2{margin-top:2px;font-size:13px;color:#8e8e93;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc .op{font-size:17px;font-weight:700;color:var(--blue);white-space:nowrap}
+.oc .ox{all:unset;cursor:pointer;width:28px;height:28px;display:grid;place-items:center;color:#8e8e93;border-radius:50%}
+.ocreate{position:fixed;z-index:5;left:50%;bottom:calc(var(--bot) + 190*var(--u) + 26px);height:46px;padding:0 22px;display:flex;align-items:center;gap:8px;font-size:17px;font-weight:600;color:#fff;white-space:nowrap;cursor:pointer;opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,16px) scale(.9);transition:transform .35s cubic-bezier(.2,1.3,.35,1),opacity .2s,visibility .2s}
+.ocreate.on{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0)}
+.ocreate b{min-width:22px;height:22px;border-radius:11px;background:var(--blue);display:grid;place-items:center;font-size:13px;padding:0 6px}
+.oscrim{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.oscrim.on{opacity:1;visibility:visible}
+.osheet{position:fixed;z-index:21;left:0;right:0;bottom:0;padding:10px 16px calc(var(--bot) + 16px);border-radius:32px 32px 0 0;background:rgba(36,36,36,.82);-webkit-backdrop-filter:blur(24px) saturate(1.8);backdrop-filter:blur(24px) saturate(1.8);box-shadow:inset 0 1px 0 rgba(255,255,255,.12);transform:translateY(105%);transition:transform .38s cubic-bezier(.2,.9,.25,1);max-width:520px;margin:0 auto}
+.osheet.on{transform:none}
+.osheet .grab{width:36px;height:5px;border-radius:3px;background:rgba(255,255,255,.25);margin:0 auto 14px}
+.osheet h3{font-size:20px;font-weight:700;text-align:center;margin-bottom:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.1);font-size:14px}
+.ohint{font-size:14px;line-height:1.35;color:#a8a8ae;text-align:center;margin:0 8px 16px}
+.pin{display:flex;align-items:center;gap:8px;height:56px;padding:0 18px;border-radius:18px;background:#1c1c1e;margin-bottom:14px}
+.pin label{color:#8e8e93;font-size:15px;flex:none}
+.pin input{all:unset;flex:1;min-width:0;text-align:right;font-size:22px;font-weight:700;user-select:text;-webkit-user-select:text}
+.pin span{font-weight:600;color:var(--blue)}
+.obtn{all:unset;box-sizing:border-box;display:grid;place-items:center;width:100%;height:52px;border-radius:999px;background:var(--blue);font-size:17px;font-weight:600;cursor:pointer;transition:opacity .2s}
+.obtn.dis{opacity:.35;pointer-events:none}
 </style>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -323,6 +361,12 @@ html[data-badge] .bdg{display:grid;animation:bdgin .45s cubic-bezier(.3,1.6,.4,1
     <div class="et" data-i="emptyT">Здесь пусто</div>
     <div class="es" data-i="emptyS">Создайте свой первый оффер</div>
   </div>
+  <div class="olist" id="olist"></div>
+  <div class="matte hbtn pill ocreate" id="ocreate"><span data-i="oCreate">Создать оффер</span><b id="ocnt">1</b></div>
+  <div class="oscrim" id="oscrim"></div>
+  <div class="osheet" id="osheet"><div class="grab"></div><h3 id="otitle" data-i="oTitle">Новый оффер</h3><div class="chips" id="ochips"></div>
+    <div class="ohint" data-i="oHint">Пришлём уведомление, когда подходящий подарок появится на маркете</div>
+    <button class="obtn" id="omake" data-i="oMake">Создать</button><button class="obtn ghost" id="ocancel" data-i="oCancelEd" style="display:none;margin-top:10px">Отменить редактирование</button></div>
 </section>
 <section class="view" id="v2">
   <div class="bgglow"></div>
@@ -803,6 +847,11 @@ const hap = (() => {
     $(b).classList.toggle('picked', key === 'price' ? txt != null : key !== 'gift' && v.length > 0);
   }
   const emit = () => document.dispatchEvent(new CustomEvent('giftfilter', { detail: { gift: GF.gift, model: [...GF.model], bg: [...GF.bg], pat: [...GF.pat], price: { ...GF.price } } }));
+  window.giftFilterSet = st => {     // загрузить сохранённые параметры в фильтры (для редактирования заявки)
+    GF.gift = st.gift || null; GF.model = [...(st.model || [])]; GF.bg = [...(st.bg || [])]; GF.pat = [...(st.pat || [])];
+    GF.price = { min: st.price && st.price.min != null ? st.price.min : null, max: st.price && st.price.max != null ? st.price.max : null };
+    Object.keys(LAB).forEach(label); emit();
+  };
   function setGift(v) {
     if (GF.gift === v) return;
     GF.gift = v; GF.model = []; GF.pat = [];     // у каждого подарка свои модели и узоры
@@ -1210,6 +1259,125 @@ document.querySelectorAll('#v2 [data-tg]').forEach(a => a.addEventListener('clic
 // Красный значок «!» на вкладке «Настройки» (например: закончилась подписка).
 // Пока работает только на фронтенде: setBadge(true) показать, setBadge(false) скрыть.
 window.setBadge = on => document.documentElement.toggleAttribute('data-badge', on !== false);
+</script>
+<script>
+// Офферы: кнопка «Создать» появляется, когда выбран подарок; цена вводится в шторке
+(function () {
+  const L = {
+    ru: { oEdit: 'Редактирование', oSave: 'Сохранить', oSaveP: 'Сохранить заявку', oEditBtn: 'Редактировать', oDel: 'Удалить', oCancelEd: 'Отменить редактирование', oHint: 'Пришлём уведомление, когда подходящий подарок появится на маркете', oCreate: 'Создать оффер', oTitle: 'Новый оффер', oYour: 'Готов заплатить', oMake: 'Создать', oAll: 'Любые параметры', oPr: 'Цена' },
+    en: { oEdit: 'Editing', oSave: 'Save', oSaveP: 'Save offer', oEditBtn: 'Edit', oDel: 'Delete', oCancelEd: 'Cancel editing', oHint: 'We’ll notify you when a matching gift appears on the market', oCreate: 'Create offer', oTitle: 'New offer', oYour: 'I will pay', oMake: 'Create', oAll: 'Any parameters', oPr: 'Price' },
+    uk: { oEdit: 'Редагування', oSave: 'Зберегти', oSaveP: 'Зберегти заявку', oEditBtn: 'Редагувати', oDel: 'Видалити', oCancelEd: 'Скасувати редагування', oHint: 'Надішлемо сповіщення, коли відповідний подарунок з’явиться на маркеті', oCreate: 'Створити оффер', oTitle: 'Новий оффер', oYour: 'Готовий заплатити', oMake: 'Створити', oAll: 'Будь-які параметри', oPr: 'Ціна' },
+    ko: { oEdit: '수정', oSave: '저장', oSaveP: '오퍼 저장', oEditBtn: '수정하기', oDel: '삭제', oCancelEd: '수정 취소', oHint: '조건에 맞는 선물이 마켓에 올라오면 알려드려요', oCreate: '오퍼 만들기', oTitle: '새 오퍼', oYour: '내 가격', oMake: '만들기', oAll: '모든 조건', oPr: '가격' },
+    zh: { oEdit: '编辑', oSave: '保存', oSaveP: '保存报价', oEditBtn: '编辑', oDel: '删除', oCancelEd: '取消编辑', oHint: '当符合条件的礼物上架市场时，我们会通知你', oCreate: '创建报价', oTitle: '新报价', oYour: '你的出价', oMake: '创建', oAll: '任意参数', oPr: '价格' }
+  };
+  Object.keys(L).forEach(l => Object.assign(T[l], L[l]));
+  const GF = window.giftFilter, offers = []; let editId = null;
+  const btn = $('ocreate'), sheet = $('osheet'), scr = $('oscrim'), make = $('omake');
+  document.body.append(scr, sheet);   // выносим из #v1: у него свой stacking context, и док перекрывал шторку
+  // цвета фонов (как в списке фильтра Фон)
+  let BD = {};
+  fetch('https://cdn.changes.tg/gifts/backdrops.json').then(x => x.json()).then(a => { a.forEach(b => BD[b.name] = b.hex); render(); }).catch(() => {});
+  const one = a => a.length === 1 ? a[0] : a.length + '×';
+  const parts = () => {
+    const d = T[LANG], p = [], pr = GF.price || {};
+    if (pr.min != null && pr.max != null) p.push(d.oPr + ': ' + pr.min + '–' + pr.max);
+    else if (pr.min != null) p.push(d.oPr + ': ' + d.fFrom + ' ' + pr.min);
+    else if (pr.max != null) p.push(d.oPr + ': ' + d.fTo + ' ' + pr.max);
+    if (GF.model.length) p.push(d.fModel + ': ' + one(GF.model));
+    if (GF.bg.length) p.push(d.fBg + ': ' + one(GF.bg));
+    if (GF.pat.length) p.push(d.fPat + ': ' + one(GF.pat));
+    return p;
+  };
+  function refresh() {
+    if (!GF.gift) editId = null;
+    const n = parts().length, kk = editId ? 'oSaveP' : 'oCreate', sp = btn.querySelector('span'); sp.dataset.i = kk; sp.textContent = T[LANG][kk];
+    btn.classList.toggle('on', !!GF.gift && !sheet.classList.contains('on'));
+    $('ocnt').textContent = 1 + n; $('ocnt').style.display = n ? '' : 'none';
+  }
+  document.addEventListener('giftfilter', refresh);
+  function modeTexts() {
+    const d = T[LANG], t = $('otitle'); t.dataset.i = editId ? 'oEdit' : 'oTitle'; t.textContent = d[t.dataset.i];
+    make.dataset.i = editId ? 'oSave' : 'oMake'; make.textContent = d[make.dataset.i]; $('ocancel').style.display = editId ? '' : 'none';
+  }
+  function openSheet() {
+    modeTexts();
+    const d = T[LANG], c = [GF.gift, ...parts()];
+    $('ochips').innerHTML = ''; c.forEach(t => { const e = document.createElement('div'); e.className = 'chip'; e.textContent = t; $('ochips').appendChild(e); });
+    if (c.length === 1) { const e = document.createElement('div'); e.className = 'chip'; e.style.color = '#8e8e93'; e.textContent = d.oAll; $('ochips').appendChild(e); }
+    sheet.classList.add('on'); scr.classList.add('on'); btn.classList.remove('on'); hap.impact('medium');
+  }
+  function closeSheet() { sheet.classList.remove('on'); scr.classList.remove('on'); refresh(); }
+  btn.addEventListener('click', openSheet); scr.addEventListener('click', () => { closeSheet(); closeDet(); });
+  $('ocancel').addEventListener('click', () => { editId = null; window.giftFilterSet({}); closeSheet(); });
+  make.addEventListener('click', () => {
+    if (!GF.gift) return;
+    const st = { gift: GF.gift, parts: parts(), bg: [...GF.bg], model: [...GF.model], pat: [...GF.pat], price: { ...GF.price } };
+    if (editId) { const i = offers.findIndex(x => x.id === editId); if (i >= 0) Object.assign(offers[i], st); editId = null; window.giftFilterSet({}); }
+    else { offers.unshift({ id: Date.now(), ...st }); window.giftFilterSet({}); }
+    hap.impact('light'); render(); closeSheet();
+  });
+  // подробности заявки
+  const det = document.createElement('div'); det.className = 'osheet'; det.id = 'odet';
+  det.innerHTML = '<div class="grab"></div><div id="ohero"></div><div id="obody"></div><button class="obtn" id="oedit" data-i="oEditBtn"></button><button class="obtn ghost dng" id="odel" data-i="oDel"></button>';
+  document.body.appendChild(det);
+  let cur = null;
+  const closeDet = () => { det.classList.remove('on'); if (!sheet.classList.contains('on')) scr.classList.remove('on'); refresh(); };
+  const pstr = pr => pr.min != null && pr.max != null ? pr.min + '–' + pr.max : pr.min != null ? T[LANG].fFrom + ' ' + pr.min : pr.max != null ? T[LANG].fTo + ' ' + pr.max : '';
+  function openDet(o, card) {
+    cur = o; const d = T[LANG], b = $('obody'); b.innerHTML = '';
+    const h = card.cloneNode(true); h.classList.add('big'); $('ohero').replaceChildren(h);
+    const add = (title, items, dot) => {
+      if (!items.length) return;
+      const t = document.createElement('div'); t.className = 'sec2'; t.textContent = title;
+      const c = document.createElement('div'); c.className = 'chips';
+      items.forEach(x => { const e = document.createElement('div'); e.className = 'chip';
+        if (dot && BD[x]) { const i = document.createElement('i'); i.className = 'dot'; i.style.background = 'linear-gradient(135deg,' + BD[x].centerColor + ',' + BD[x].edgeColor + ')'; e.appendChild(i); }
+        e.appendChild(document.createTextNode(x)); c.appendChild(e); });
+      b.append(t, c);
+    };
+    add(d.fModel, o.model || []); add(d.fBg, o.bg || [], 1); add(d.fPat, o.pat || []);
+    const ps = pstr(o.price || {}); if (ps) add(d.oPr, [ps]);
+    if (!b.children.length) add('', [d.oAll]);
+    $('oedit').textContent = d.oEditBtn; $('odel').textContent = d.oDel;
+    det.classList.add('on'); scr.classList.add('on'); btn.classList.remove('on'); hap.impact('light');
+  }
+  $('oedit').onclick = () => { editId = cur.id; closeDet(); window.giftFilterSet(cur); hap.impact('medium'); };
+  $('odel').onclick = () => { offers.splice(offers.indexOf(cur), 1); hap.impact('light'); render(); closeDet(); };
+  function render() {
+    const box = $('olist'); box.innerHTML = '';
+    $('v1').classList.toggle('has-offers', offers.length > 0);
+    offers.forEach(o => {
+      const el = document.createElement('div'); el.className = 'oc';
+      const cs = (o.bg || []).filter(n => BD[n]).flatMap(n => [BD[n].centerColor, BD[n].edgeColor]);
+      if (cs.length) { el.classList.add('tint'); el.style.background = 'linear-gradient(rgba(20,20,22,.55),rgba(20,20,22,.55)),linear-gradient(135deg,' + (cs.length > 2 ? cs.join(',') : cs.join(',')) + ')'; }
+      const img = document.createElement('img'); img.alt = '';
+      const mp = 'https://cdn.changes.tg/gifts/models/' + encodeURIComponent(o.gift).replace(/'/g, '%27') + '/png/', orig = mp + 'Original.png';
+      const first = o.model && o.model.length ? mp + encodeURIComponent(o.model[0]).replace(/'/g, '%27') + '.png' : orig;   // выбрана модель — показываем её
+      img.src = first; img.onerror = () => { if (img.src !== orig) { img.onerror = () => { img.style.visibility = 'hidden'; }; img.src = orig; } else img.style.visibility = 'hidden'; };
+      if (o.pat && o.pat.length) {
+        const lay = document.createElement('div'); lay.className = 'opat';
+        [[88,18,26,15],[74,62,20,-20],[60,14,16,30],[94,70,18,0],[46,66,14,-10],[78,38,14,40],[52,36,12,-30],[66,84,14,20]].forEach(([x, y, w, rot], i) => {
+          const im = document.createElement('img'), n = o.pat[i % o.pat.length];
+          im.src = 'https://cdn.changes.tg/gifts/patterns/' + encodeURIComponent(o.gift).replace(/'/g, '%27') + '/png/' + encodeURIComponent(n).replace(/'/g, '%27') + '.png';
+          im.style.cssText = 'left:' + x + '%;top:' + y + '%;width:' + w + 'px;height:' + w + 'px;transform:translate(-50%,-50%) rotate(' + rot + 'deg)';
+          im.onerror = () => im.remove(); lay.appendChild(im);
+        });
+        el.appendChild(lay);
+      }
+      el.style.cursor = 'pointer'; el.onclick = e => { if (!e.target.closest('.ox')) openDet(o, el); };
+      const info = document.createElement('div'); info.className = 'oi';
+      const a = document.createElement('div'); a.className = 'on1'; a.textContent = o.gift;
+      const b = document.createElement('div'); b.className = 'on2'; b.textContent = o.parts.length ? o.parts.join(' · ') : T[LANG].oAll;
+      info.append(a, b);
+      const x = document.createElement('button'); x.className = 'ox'; x.innerHTML = '<svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"/></svg>';
+      x.onclick = () => { offers.splice(offers.indexOf(o), 1); hap.impact('light'); render(); };
+      el.append(img, info, x); box.appendChild(el);
+    });
+  }
+  new MutationObserver(() => { document.querySelectorAll('#v1 [data-i],#osheet [data-i]').forEach(e => { const v = T[LANG][e.dataset.i]; if (v != null) e.textContent = v; }); render(); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+  render(); refresh();
+})();
 </script>
 </body>
 </html>
