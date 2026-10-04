@@ -22,7 +22,9 @@ html,body{height:100%;background:#000;overflow:hidden;overscroll-behavior:none;c
 .solid{background:rgba(255,255,255,.16);border-radius:999px;opacity:clamp(0,calc(1 - var(--p)*4),1);will-change:transform,opacity;backface-visibility:hidden}
 .thumb{border:1px solid rgba(255,255,255,.1);box-shadow:0 calc(6px + var(--p)*10px) calc(18px + var(--p)*20px) rgba(0,0,0,calc(.3 + var(--p)*.25));opacity:clamp(0,calc(var(--p)*4),1);overflow:hidden;will-change:transform,opacity;backface-visibility:hidden}
 .lens{position:absolute;inset:0;border-radius:inherit;overflow:hidden;background:#2b2b2b;box-shadow:inset 0 0 calc(22*var(--u)) calc(3*var(--u)) rgba(0,0,0,.6)}
-.lens .tabs{inset:auto;left:calc(-14*var(--u) - var(--x)*338*var(--u) - var(--tx)*var(--u) - 1px);top:calc(-14*var(--u) - 1px);width:calc(700*var(--u));height:calc(190*var(--u))}
+.lens .tabs{inset:auto;left:calc(-14*var(--u) - var(--x)*338*var(--u) - var(--tx)*var(--u) - 1px);top:calc(-14*var(--u) - 1px);width:calc(700*var(--u));height:calc(190*var(--u));
+  /* контент под каплей увеличивается синхронно с ростом капли (зум = 1 + .5·(--sy−1)), но равномерно, без сужения: растяжение --sx/--sy гасим */
+  transform-origin:calc(181*var(--u) + var(--x)*338*var(--u) + var(--tx)*var(--u)) calc(95*var(--u));scale:calc((1 + .5*(var(--sy,1) - 1))/var(--sx,1)) calc((1 + .5*(var(--sy,1) - 1))/var(--sy,1))}
 .lens .gap,.lens .tab.on .gap{stroke:#2b2b2b}
 .fb{-webkit-backdrop-filter:blur(3px) saturate(1.4);backdrop-filter:blur(3px) saturate(1.4)}
 .bar{position:relative;width:calc(700*var(--u));height:calc(190*var(--u));touch-action:none;cursor:grab}
@@ -136,7 +138,7 @@ html,body{height:100%;background:#000;overflow:hidden;overscroll-behavior:none;c
 
 /* ===== Настройки (в стиле iOS «Сводка») ===== */
 #v1{background:#000}
-#v1 .empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:0 32px calc(190*var(--u) + var(--bot) + 20px);pointer-events:none}
+#v1 .empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:0 32px;pointer-events:none}
 #chatLot{width:min(170px,44vw);height:min(170px,44vw);margin-bottom:6px}
 #chatLot svg{width:100%;height:100%;display:block}
 #v1 .et{font-size:22px;font-weight:700;line-height:1.2}
@@ -279,10 +281,18 @@ html[data-badge] .bdg{display:grid;animation:bdgin .45s cubic-bezier(.3,1.6,.4,1
 .gprice .pv input{flex:1;min-width:0;width:100%;background:none;border:0;outline:0;color:#fff;font:inherit;font-size:19px;font-weight:600;padding:0;-webkit-appearance:none;appearance:none;user-select:text;-webkit-user-select:text;caret-color:var(--blue)}
 .gprice .pv input::placeholder{color:#6c6c70;font-weight:500;opacity:1}
 .prs{position:relative;height:40px;margin:10px 0 2px;touch-action:none;cursor:pointer}
-.prs .trk{position:absolute;left:12px;right:12px;top:50%;height:4px;margin-top:-2px;border-radius:2px;background:rgba(255,255,255,.18)}
+.prs .trk{position:absolute;left:17px;right:17px;top:50%;height:4px;margin-top:-2px;border-radius:2px;background:rgba(255,255,255,.18)}
 .prs .fil2{position:absolute;top:0;bottom:0;left:calc(var(--a,0)*100%);width:calc((var(--b,1) - var(--a,0))*100%);border-radius:2px;background:var(--blue)}
-.prs .kn{position:absolute;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;left:calc(12px + (100% - 24px)*var(--p,0));border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.5),0 0 0 .5px rgba(0,0,0,.15);transition:transform .15s}
-.prs .kn.drag{transform:scale(1.14)}
+.prs .kn{position:absolute;top:50%;width:34px;height:22px;margin:-11px 0 0 -17px;left:calc(17px + (100% - 34px)*var(--p,0));border-radius:999px;background:rgba(255,255,255,var(--wa,1));box-shadow:0 2px 8px rgba(0,0,0,calc(.5*var(--wa,1))),0 0 0 .5px rgba(0,0,0,calc(.15*var(--wa,1)))}
+.prs .kn.drag{z-index:2}
+/* жидкое стекло: появляется из белого кружка, пока ползунок зажат */
+.prs .kg{position:absolute;left:-9px;top:-6px;width:52px;height:34px;pointer-events:none;border-radius:999px;
+  opacity:0;transform:scale(.654,.647);will-change:transform,opacity;
+  box-shadow:inset 0 0 10px -3px rgba(255,255,255,.45),0 8px 18px rgba(0,0,0,.42)}
+.prs .kg .lens{box-shadow:inset 0 0 7px 1px rgba(0,0,0,.55)}
+.prs .kc{position:absolute;top:-4px;height:40px;width:var(--W,300px);left:calc(8px - (var(--W,300px) - 34px)*var(--p,0) - var(--lx,0px));
+  transform-origin:calc(17px + (var(--W,300px) - 34px)*var(--p,0)) 20px;transform:scale(calc(.84*var(--isx,1)),calc(1.12*var(--isy,1)))}   /* как в нижнем баре: под каплей чуть сжато по ширине и чуть растянуто по высоте */
+.prs .kg .lens::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.14) 0,rgba(255,255,255,0) 38%,rgba(255,255,255,0) 62%,rgba(255,255,255,.1) 100%)}
 </style>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -311,7 +321,7 @@ html[data-badge] .bdg{display:grid;animation:bdgin .45s cubic-bezier(.3,1.6,.4,1
   <div class="empty">
     <div id="chatLot"></div>
     <div class="et" data-i="emptyT">Здесь пусто</div>
-    <div class="es" data-i="emptyS">Как насчет того, чтобы потыкать и потягать Liquid Glass?</div>
+    <div class="es" data-i="emptyS">Создайте свой первый оффер</div>
   </div>
 </section>
 <section class="view" id="v2">
@@ -453,11 +463,11 @@ function filterFor(el, id) {
   return `<filter id="${id}" x="0%" y="0%" width="100%" height="100%">
 <feGaussianBlur in="SourceGraphic" stdDeviation="0.2" result="bl"/>
 <feImage href="${disp}" x="0" y="0" width="${w}" height="${h}" result="dm"/>
-<feDisplacementMap in="bl" in2="dm" scale="${mx * (soft ? .1 : id === 'lg-thumb' ? .45 : .4)}" xChannelSelector="R" yChannelSelector="G" result="dp"/>
+<feDisplacementMap in="bl" in2="dm" scale="${mx * (soft ? .1 : id === 'lg-thumb' ? .6 : id.startsWith('lg-kn') ? 1 : .4)}" xChannelSelector="R" yChannelSelector="G" result="dp"/>
 <feColorMatrix in="dp" type="saturate" values="5" result="ds"/>
 <feImage href="${spec}" x="0" y="0" width="${w}" height="${h}" result="sl"/>
 <feComposite in="ds" in2="sl" operator="in" result="sm"/>
-<feComponentTransfer in="sl" result="sf"><feFuncA type="linear" slope="${soft ? 0 : id === 'lg-thumb' ? .22 : 1}"/></feComponentTransfer>
+<feComponentTransfer in="sl" result="sf"><feFuncA type="linear" slope="${soft ? 0 : id === 'lg-thumb' || id.startsWith('lg-kn') ? .22 : 1}"/></feComponentTransfer>
 <feBlend in="sm" in2="dp" mode="normal" result="ws"/>
 <feBlend in="sf" in2="ws" mode="normal"/></filter>`;
 }
@@ -465,7 +475,7 @@ const isChromium = /Chrome\//.test(navigator.userAgent) && !/CriOS|FxiOS|EdgiOS/
 const $ = id => document.getElementById(id);
 // Язык интерфейса (ru / en / uk / ko / zh), выбор запоминается
 let LANG = 'ru'; try { const sv = localStorage.getItem('lang'); if (sv === 'en' || sv === 'ru' || sv === 'uk' || sv === 'ko' || sv === 'zh') LANG = sv; } catch (e) {}
-const T = {"ru": {"emptyT": "Здесь пусто", "emptyS": "Как насчет того, чтобы потыкать и потягать Liquid Glass?", "contacts": "Контакты", "chats": "Чаты", "settings": "Настройки", "sort": "Сортировка", "search": "Поиск", "invite": "Пригласить", "byTime": "по времени захода", "byName": "по имени", "closeSearch": "Закрыть поиск", "langTitle": "Язык", "hide": "Скрыть", "demoH": "Демо", "devH": "Разработчик", "projH": "Мои проекты", "contH": "Связь", "demoT": "Это демо Liquid Glass в Telegram", "demoS": "Новый стандарт для мини-приложений в Telegram", "by": "Разработано пользователем", "bio": "Независимый разработчик ботов и мини-приложений. Очень хорошо выходит косить дизайн под iOS 27", "tMy": "Мой канал", "tNews": "Новости", "tUpd": "Обновления", "tOld": "Бывший канал", "cta": "Хочешь к себе в мини-апп такой же Liquid Glass? Отвечаю всем", "e1": "Еще посидим..", "e2": "Любовь до первой ошибки", "e3": "Любимчик", "e4": "Тоже самое", "e5": "чуточку", "hk": "Да ты прям хакер 😎", "foot": "© 2026 vovnx. Все права защищены", "gifts": "Подарки", "fPrice": "Цена", "fModel": "Модель", "fBg": "Фон", "fPat": "Узор", "fGift": "Все подарки"}, "en": {"emptyT": "It's empty here", "emptyS": "How about poking and dragging the Liquid Glass?", "contacts": "Contacts", "chats": "Chats", "settings": "Settings", "sort": "Sort", "search": "Search", "invite": "Invite", "byTime": "by last seen", "byName": "by name", "closeSearch": "Close search", "langTitle": "Language", "hide": "Hide", "demoH": "Demo", "devH": "Developer", "projH": "My projects", "contH": "Contact", "demoT": "This is a Liquid Glass demo in Telegram", "demoS": "A new standard for Telegram mini apps", "by": "Developed by", "bio": "Independent developer of bots and mini apps. Really good at mimicking iOS 27 design", "tMy": "My channel", "tNews": "News", "tUpd": "Updates", "tOld": "Former channel", "cta": "Want the same Liquid Glass in your mini app? I reply to everyone", "e1": "Let's stay a bit longer..", "e2": "Love until the first error", "e3": "Favorite", "e4": "Same here", "e5": "a little", "hk": "You're a real hacker 😎", "foot": "© 2026 vovnx. All rights reserved", "gifts": "Gifts", "fPrice": "Price", "fModel": "Model", "fBg": "Backdrop", "fPat": "Symbol", "fGift": "All gifts"}, "uk": {"emptyT": "Тут порожньо", "emptyS": "Як щодо того, щоб потикати й потягати Liquid Glass?", "contacts": "Контакти", "chats": "Чати", "settings": "Налаштування", "sort": "Сортування", "search": "Пошук", "invite": "Запросити", "byTime": "за часом заходу", "byName": "за ім’ям", "closeSearch": "Закрити пошук", "langTitle": "Мова", "hide": "Сховати", "demoH": "Демо", "devH": "Розробник", "projH": "Мої проєкти", "contH": "Зв’язок", "demoT": "Це демо Liquid Glass у Telegram", "demoS": "Новий стандарт для міні-застосунків у Telegram", "by": "Розроблено користувачем", "bio": "Незалежний розробник ботів і міні-застосунків. Дуже добре виходить косити дизайн під iOS 27", "tMy": "Мій канал", "tNews": "Новини", "tUpd": "Оновлення", "tOld": "Колишній канал", "cta": "Хочеш у свій міні-застосунок такий самий Liquid Glass? Відповідаю всім", "e1": "Ще посидимо..", "e2": "Кохання до першої помилки", "e3": "Улюбленець", "e4": "Те саме", "e5": "трошечки", "hk": "Та ти прямо хакер 😎", "foot": "© 2026 vovnx. Усі права захищено", "gifts": "Подарунки", "fPrice": "Ціна", "fModel": "Модель", "fBg": "Фон", "fPat": "Візерунок", "fGift": "Усі подарунки"}, "ko": {"emptyT": "여기는 비어 있어요", "emptyS": "Liquid Glass를 콕콕 누르고 쭉 끌어당겨 볼까요?", "contacts": "연락처", "chats": "채팅", "settings": "설정", "sort": "정렬", "search": "검색", "invite": "초대", "byTime": "최근 접속순", "byName": "이름순", "closeSearch": "검색 닫기", "langTitle": "언어", "hide": "숨기기", "demoH": "데모", "devH": "개발자", "projH": "내 프로젝트", "contH": "연락", "demoT": "Telegram의 Liquid Glass 데모입니다", "demoS": "Telegram 미니앱의 새로운 표준", "by": "개발자:", "bio": "봇과 미니앱을 만드는 독립 개발자. iOS 27 디자인을 따라 하는 데 꽤 능숙합니다", "tMy": "내 채널", "tNews": "뉴스", "tUpd": "업데이트", "tOld": "이전 채널", "cta": "내 미니앱에도 이런 Liquid Glass를 넣고 싶나요? 모두에게 답장해요", "e1": "조금만 더 앉아 있자..", "e2": "첫 에러가 나기 전까지의 사랑", "e3": "최애", "e4": "저도 똑같아요", "e5": "조금", "hk": "완전 해커시네요 😎", "foot": "© 2026 vovnx. 모든 권리 보유", "gifts": "선물", "fPrice": "가격", "fModel": "모델", "fBg": "배경", "fPat": "무늬", "fGift": "모든 선물"}, "zh": {"emptyT": "这里空空如也", "emptyS": "要不要来戳一戳、拖一拖 Liquid Glass？", "contacts": "联系人", "chats": "聊天", "settings": "设置", "sort": "排序", "search": "搜索", "invite": "邀请", "byTime": "按最近在线", "byName": "按姓名", "closeSearch": "关闭搜索", "langTitle": "语言", "hide": "隐藏", "demoH": "演示", "devH": "开发者", "projH": "我的项目", "contH": "联系", "demoT": "这是 Telegram 中的 Liquid Glass 演示", "demoS": "Telegram 小程序的新标准", "by": "开发者：", "bio": "独立的机器人和小程序开发者。很擅长模仿 iOS 27 的设计", "tMy": "我的频道", "tNews": "新闻", "tUpd": "更新", "tOld": "旧频道", "cta": "想在你的小程序里也用上这样的 Liquid Glass？有问必答", "e1": "再坐一会儿..", "e2": "爱到第一个报错为止", "e3": "最爱", "e4": "我也一样", "e5": "一点点", "hk": "你简直是黑客 😎", "foot": "© 2026 vovnx. 保留所有权利", "gifts": "礼物", "fPrice": "价格", "fModel": "模型", "fBg": "背景", "fPat": "图案", "fGift": "全部礼物"}};
+const T = {"ru": {"emptyT": "Здесь пусто", "emptyS": "Создайте свой первый оффер", "contacts": "Контакты", "chats": "Чаты", "settings": "Настройки", "sort": "Сортировка", "search": "Поиск", "invite": "Пригласить", "byTime": "по времени захода", "byName": "по имени", "closeSearch": "Закрыть поиск", "langTitle": "Язык", "hide": "Скрыть", "demoH": "Демо", "devH": "Разработчик", "projH": "Мои проекты", "contH": "Связь", "demoT": "Это демо Liquid Glass в Telegram", "demoS": "Новый стандарт для мини-приложений в Telegram", "by": "Разработано пользователем", "bio": "Независимый разработчик ботов и мини-приложений. Очень хорошо выходит косить дизайн под iOS 27", "tMy": "Мой канал", "tNews": "Новости", "tUpd": "Обновления", "tOld": "Бывший канал", "cta": "Хочешь к себе в мини-апп такой же Liquid Glass? Отвечаю всем", "e1": "Еще посидим..", "e2": "Любовь до первой ошибки", "e3": "Любимчик", "e4": "Тоже самое", "e5": "чуточку", "hk": "Да ты прям хакер 😎", "foot": "© 2026 vovnx. Все права защищены", "gifts": "Подарки", "fPrice": "Цена", "fModel": "Модель", "fBg": "Фон", "fPat": "Узор", "fGift": "Все подарки"}, "en": {"emptyT": "It's empty here", "emptyS": "Create your first offer", "contacts": "Contacts", "chats": "Chats", "settings": "Settings", "sort": "Sort", "search": "Search", "invite": "Invite", "byTime": "by last seen", "byName": "by name", "closeSearch": "Close search", "langTitle": "Language", "hide": "Hide", "demoH": "Demo", "devH": "Developer", "projH": "My projects", "contH": "Contact", "demoT": "This is a Liquid Glass demo in Telegram", "demoS": "A new standard for Telegram mini apps", "by": "Developed by", "bio": "Independent developer of bots and mini apps. Really good at mimicking iOS 27 design", "tMy": "My channel", "tNews": "News", "tUpd": "Updates", "tOld": "Former channel", "cta": "Want the same Liquid Glass in your mini app? I reply to everyone", "e1": "Let's stay a bit longer..", "e2": "Love until the first error", "e3": "Favorite", "e4": "Same here", "e5": "a little", "hk": "You're a real hacker 😎", "foot": "© 2026 vovnx. All rights reserved", "gifts": "Gifts", "fPrice": "Price", "fModel": "Model", "fBg": "Backdrop", "fPat": "Symbol", "fGift": "All gifts"}, "uk": {"emptyT": "Тут порожньо", "emptyS": "Створіть свій перший оффер", "contacts": "Контакти", "chats": "Чати", "settings": "Налаштування", "sort": "Сортування", "search": "Пошук", "invite": "Запросити", "byTime": "за часом заходу", "byName": "за ім’ям", "closeSearch": "Закрити пошук", "langTitle": "Мова", "hide": "Сховати", "demoH": "Демо", "devH": "Розробник", "projH": "Мої проєкти", "contH": "Зв’язок", "demoT": "Це демо Liquid Glass у Telegram", "demoS": "Новий стандарт для міні-застосунків у Telegram", "by": "Розроблено користувачем", "bio": "Незалежний розробник ботів і міні-застосунків. Дуже добре виходить косити дизайн під iOS 27", "tMy": "Мій канал", "tNews": "Новини", "tUpd": "Оновлення", "tOld": "Колишній канал", "cta": "Хочеш у свій міні-застосунок такий самий Liquid Glass? Відповідаю всім", "e1": "Ще посидимо..", "e2": "Кохання до першої помилки", "e3": "Улюбленець", "e4": "Те саме", "e5": "трошечки", "hk": "Та ти прямо хакер 😎", "foot": "© 2026 vovnx. Усі права захищено", "gifts": "Подарунки", "fPrice": "Ціна", "fModel": "Модель", "fBg": "Фон", "fPat": "Візерунок", "fGift": "Усі подарунки"}, "ko": {"emptyT": "여기는 비어 있어요", "emptyS": "첫 오퍼를 만들어 보세요", "contacts": "연락처", "chats": "채팅", "settings": "설정", "sort": "정렬", "search": "검색", "invite": "초대", "byTime": "최근 접속순", "byName": "이름순", "closeSearch": "검색 닫기", "langTitle": "언어", "hide": "숨기기", "demoH": "데모", "devH": "개발자", "projH": "내 프로젝트", "contH": "연락", "demoT": "Telegram의 Liquid Glass 데모입니다", "demoS": "Telegram 미니앱의 새로운 표준", "by": "개발자:", "bio": "봇과 미니앱을 만드는 독립 개발자. iOS 27 디자인을 따라 하는 데 꽤 능숙합니다", "tMy": "내 채널", "tNews": "뉴스", "tUpd": "업데이트", "tOld": "이전 채널", "cta": "내 미니앱에도 이런 Liquid Glass를 넣고 싶나요? 모두에게 답장해요", "e1": "조금만 더 앉아 있자..", "e2": "첫 에러가 나기 전까지의 사랑", "e3": "최애", "e4": "저도 똑같아요", "e5": "조금", "hk": "완전 해커시네요 😎", "foot": "© 2026 vovnx. 모든 권리 보유", "gifts": "선물", "fPrice": "가격", "fModel": "모델", "fBg": "배경", "fPat": "무늬", "fGift": "모든 선물"}, "zh": {"emptyT": "这里空空如也", "emptyS": "创建你的第一个报价", "contacts": "联系人", "chats": "聊天", "settings": "设置", "sort": "排序", "search": "搜索", "invite": "邀请", "byTime": "按最近在线", "byName": "按姓名", "closeSearch": "关闭搜索", "langTitle": "语言", "hide": "隐藏", "demoH": "演示", "devH": "开发者", "projH": "我的项目", "contH": "联系", "demoT": "这是 Telegram 中的 Liquid Glass 演示", "demoS": "Telegram 小程序的新标准", "by": "开发者：", "bio": "独立的机器人和小程序开发者。很擅长模仿 iOS 27 的设计", "tMy": "我的频道", "tNews": "新闻", "tUpd": "更新", "tOld": "旧频道", "cta": "想在你的小程序里也用上这样的 Liquid Glass？有问必答", "e1": "再坐一会儿..", "e2": "爱到第一个报错为止", "e3": "最爱", "e4": "我也一样", "e5": "一点点", "hk": "你简直是黑客 😎", "foot": "© 2026 vovnx. 保留所有权利", "gifts": "礼物", "fPrice": "价格", "fModel": "模型", "fBg": "背景", "fPat": "图案", "fGift": "全部礼物"}};
 const bar = $('bar'), base = $('base'), fil = $('fil'), thumb = $('thumb'), search = $('search');
 const bdEls = [[base, 'bd-base'], [search, 'bd-search'], [$('sortBtn'), 'bd-sort'], [$('plusBtn'), 'bd-plus'], [$('sfield'), 'bd-field'], [$('sx'), 'bd-sx'], ...[0, 1, 2, 3].map(n => [$('fb' + n), 'bd-fb' + n]), [$('gp'), 'bd-gp']];
 bdEls.forEach(([el]) => el.dataset.soft = '1');
@@ -581,7 +591,7 @@ let last = performance.now();
   imp = clamp(imp, -.3, .3);
   const g = (mv < 0 && press < .02) ? mv : Math.max(mv, press);
   const st = clamp(Math.abs(vel) * .055, 0, .26) * (down ? 1 : .6);  // растяжение по скорости
-  const s = 1 + .05 * g + .06 * press, sy = 1 + .24 * g + .16 * press; // до краёв бара; при зажатии — ещё больше
+  const s = 1 + .04 * g + .035 * press, sy = 1 + .17 * g + .07 * press; // до краёв бара; при зажатии — ещё больше
   bar.style.setProperty('--x', cur.toFixed(4));
   // Границы бара (700×190): капля может чуть выйти за них, дальше — мягкий «подушечный» упор:
   // деформация начинается заранее и нарастает плавно, об стенку она сплющивается и разбухает по высоте
@@ -826,12 +836,45 @@ const hap = (() => {
     + '<div class="ph"><b id="ptt"></b><button class="prst" id="prst" type="button"></button></div>'
     + '<div class="pr"><label class="pf"><span class="pl" id="pl0"></span><span class="pv">' + GI + '<input id="pmin" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" placeholder="0"></span></label>'
     + '<label class="pf"><span class="pl" id="pl1"></span><span class="pv">' + GI + '<input id="pmax" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" placeholder="∞"></span></label></div>'
-    + '<div class="prs" id="prs"><div class="trk"><i class="fil2"></i></div><i class="kn" id="kn0"></i><i class="kn" id="kn1"></i></div></div>');
+    + '<div class="prs" id="prs"><div class="trk"><i class="fil2"></i></div><i class="kn" id="kn0"><i class="glass kg"><i class="lens" id="kl0"><i class="kc"><i class="trk"><i class="fil2"></i></i></i></i></i></i><i class="kn" id="kn1"><i class="glass kg"><i class="lens" id="kl1"><i class="kc"><i class="trk"><i class="fil2"></i></i></i></i></i></i></div></div>');
   const pmin = $('pmin'), pmax = $('pmax'), prs = $('prs'), kn = [$('kn0'), $('kn1')], prst = $('prst');
+  [['kl0', 'lg-kn0'], ['kl1', 'lg-kn1']].forEach(([i, id]) => { const el = $(i); glassEls.push([el, id]); ro.observe(el); });   // стеклянные бегунки
+  const setW = () => { const w = prs.offsetWidth; if (w) prs.style.setProperty('--W', w + 'px'); };
+  new ResizeObserver(setW).observe(prs);
+  // Физика капли: пружина «нажатия» (рост/сжатие) + пружина положения (инерция: капля отстаёт от пальца и вытягивается)
+  const kg = kn.map(k => k.querySelector('.kg')), kT = [0, 1], ST = kn.map(() => ({ pr: 0, prv: 0, x: null, xv: 0 }));
+  const RSX = 34 / 52, RSY = 22 / 34, PK = 220, PC = 23, XK = 700, XC = 29;
+  const cl = (v, a, b) => Math.max(a, Math.min(b, v));
+  let kraf = 0, klast = 0;
+  function kstep(now) {
+    const dt = Math.min(.032, (now - klast) / 1000 || .016); klast = now;
+    const W = prs.offsetWidth; let busy = false;
+    if (W) for (let i = 0; i < 2; i++) {
+      const s = ST[i], tx = 17 + (W - 34) * kT[i], tp = drag === i ? 1 : 0;
+      if (s.x == null) s.x = tx;
+      for (let j = 0; j < 3; j++) {
+        const h = dt / 3;
+        s.prv += (-PK * (s.pr - tp) - PC * s.prv) * h; s.pr += s.prv * h;
+        s.xv += (-XK * (s.x - tx) - XC * s.xv) * h; s.x += s.xv * h;
+      }
+      let off = s.x - tx;
+      if (Math.abs(s.pr - tp) < .0005 && Math.abs(s.prv) < .005 && Math.abs(off) < .03 && Math.abs(s.xv) < .3) { s.pr = tp; s.prv = 0; s.x = tx; s.xv = 0; off = 0; } else busy = true;
+      const st = Math.min(Math.abs(off) / 45, .3), pr = s.pr;
+      const sx = (RSX + (1 - RSX) * pr) * (1 + st), sy = (RSY + (1 - RSY) * pr) * (1 - st * .55);
+      kg[i].style.transform = `translateX(${off.toFixed(2)}px) scale(${sx.toFixed(4)},${sy.toFixed(4)})`;
+      kg[i].style.opacity = cl(pr * 3, 0, 1);
+      kg[i].style.setProperty('--lx', off.toFixed(2) + 'px');
+      kg[i].style.setProperty('--isx', (1 / (1 + st)).toFixed(4));
+      kg[i].style.setProperty('--isy', (1 / (1 - st * .55)).toFixed(4));
+      kn[i].style.setProperty('--wa', (1 - cl((pr - .1) / .4, 0, 1)).toFixed(3));
+    }
+    kraf = busy ? requestAnimationFrame(kstep) : 0;
+  }
+  const kick = () => { if (!kraf) { klast = performance.now(); kraf = requestAnimationFrame(kstep); } };
 
   function syncPrice(skip) {     // skip — поле, в которое сейчас печатают (его текст не трогаем)
     const a = GF.price.min, b = GF.price.max, ta = a == null ? 0 : v2t(a), tb = b == null ? 1 : v2t(b);
-    kn[0].style.setProperty('--p', ta); kn[1].style.setProperty('--p', tb);
+    kn[0].style.setProperty('--p', ta); kn[1].style.setProperty('--p', tb); kT[0] = ta; kT[1] = tb; kick();
     prs.style.setProperty('--a', ta); prs.style.setProperty('--b', tb);
     if (skip !== 'min') pmin.value = a == null ? '' : String(a);
     if (skip !== 'max') pmax.value = b == null ? '' : String(b);
@@ -845,7 +888,7 @@ const hap = (() => {
   [pmin, pmax].forEach(el => { el.addEventListener('blur', fixOrder); el.addEventListener('keydown', e => { if (e.key === 'Enter') el.blur(); }); });
 
   let drag = -1;
-  const tAt = e => { const r = prs.getBoundingClientRect(); return Math.min(1, Math.max(0, (e.clientX - r.left - 12) / (r.width - 24))); };
+  const tAt = e => { const r = prs.getBoundingClientRect(); return Math.min(1, Math.max(0, (e.clientX - r.left - 17) / (r.width - 34))); };
   function dragMove(e) {
     const t = tAt(e), P = GF.price;
     if (drag === 0) { let v = t < .004 ? null : t2v(t); if (v === 0) v = null; if (v != null && P.max != null && v > P.max) v = P.max; P.min = v; }
@@ -857,10 +900,10 @@ const hap = (() => {
     drag = da < db ? 0 : da > db ? 1 : (t < ta ? 0 : 1);       // двигаем ближайший бегунок
     [pmin, pmax].forEach(el => el.blur());
     try { prs.setPointerCapture(e.pointerId); } catch (_) {}
-    kn[drag].classList.add('drag'); dragMove(e); e.preventDefault();
+    setW(); kn[drag].classList.add('drag'); kick(); dragMove(e); e.preventDefault();
   });
   prs.addEventListener('pointermove', e => { if (drag >= 0) dragMove(e); });
-  const endDrag = () => { if (drag < 0) return; kn[drag].classList.remove('drag'); drag = -1; hap.select(); };
+  const endDrag = () => { if (drag < 0) return; kn[drag].classList.remove('drag'); drag = -1; kick(); hap.select(); };
   prs.addEventListener('pointerup', endDrag); prs.addEventListener('pointercancel', endDrag);
 
   prst.addEventListener('click', () => { GF.price.min = GF.price.max = null; applyPrice(); hap.select(); });
